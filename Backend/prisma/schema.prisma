@@ -10,7 +10,6 @@ datasource db {
 
 enum UserRole {
   ADMIN
-  USER
   ORGANIZER
 }
 
@@ -25,56 +24,43 @@ model User {
   id           String   @id @default(uuid())
   email        String   @unique
   passwordHash String
-  role         UserRole
+  role         UserRole @default(ORGANIZER)
   createdAt    DateTime @default(now())
 
-  events       Event[]       @relation("OrganizerEvents")
-  memberships  EventMember[]
-  searchLogs   SearchLog[]
+  events       Event[]  @relation("OrganizerEvents")
 
   @@map("users")
 }
 
 model Event {
-  id           String   @id @default(uuid())
-  name         String
-  description  String?
-  organizer_id String
-  join_code    String   @unique
-  created_at   DateTime @default(now())
+  id             String   @id @default(uuid())
+  name           String
+  description    String?
+  organizer_id   String
+  
+  // Access Credentials
+  join_code      String   @unique // The "Room ID"
+  event_password String   // The "Room Pass" (Hashed)
+  
+  created_at     DateTime @default(now())
 
-  organizer    User     @relation("OrganizerEvents", fields: [organizer_id], references: [id], onDelete: Cascade)
-  members      EventMember[]
-  photos       Photo[]
-  faces        Face[]
-  search_logs  SearchLog[]
+  organizer      User     @relation("OrganizerEvents", fields: [organizer_id], references: [id], onDelete: Cascade)
+  photos         Photo[]
+  faces          Face[]
 
   @@index([organizer_id])
+  @@index([join_code])
   @@map("events")
 }
 
-model EventMember {
-  id         String   @id @default(uuid())
-  event_id   String
-  user_id    String
-  joined_at  DateTime @default(now())
-
-  event      Event    @relation(fields: [event_id], references: [id], onDelete: Cascade)
-  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
-
-  @@unique([event_id, user_id])
-  @@index([event_id])
-  @@map("event_members")
-}
-
 model Photo {
-  id                String                 @id @default(uuid())
+  id                String                @id @default(uuid())
   event_id          String
   storage_key       String
-  processing_status PhotoProcessingStatus  @default(pending)
-  uploaded_at       DateTime               @default(now())
+  processing_status PhotoProcessingStatus @default(pending)
+  uploaded_at       DateTime              @default(now())
 
-  event             Event                  @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  event             Event                 @relation(fields: [event_id], references: [id], onDelete: Cascade)
   faces             Face[]
 
   @@index([event_id])
@@ -82,28 +68,15 @@ model Photo {
 }
 
 model Face {
-  id         String   @id @default(uuid())
+  id         String                 @id @default(uuid())
   photo_id   String
   event_id   String
   embedding  Unsupported("vector(512)")
-  created_at DateTime @default(now())
+  created_at DateTime               @default(now())
 
-  photo      Photo    @relation(fields: [photo_id], references: [id], onDelete: Cascade)
-  event      Event    @relation(fields: [event_id], references: [id], onDelete: Cascade)
+  photo      Photo                  @relation(fields: [photo_id], references: [id], onDelete: Cascade)
+  event      Event                  @relation(fields: [event_id], references: [id], onDelete: Cascade)
 
   @@index([event_id])
   @@map("faces")
 }
-
-model SearchLog {
-  id        String   @id @default(uuid())
-  userId    String
-  eventId   String
-  createdAt DateTime @default(now())
-
-  user      User     @relation(fields: [userId], references: [id])
-  event     Event    @relation(fields: [eventId], references: [id])
-
-  @@map("search_logs")
-}
-
