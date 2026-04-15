@@ -2,23 +2,60 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/Card';
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Mail, Lock } from 'lucide-react';
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
-  const [role, setRole] = useState('USER'); // 'USER' or 'ORGANIZER'
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate auth delay
-    setTimeout(() => {
+    
+    try {
+      const email = e.target.email.value;
+      const password = e.target.password.value;
+      
+      const endpoint = isLogin ? '/auth/login' : '/auth/register';
+      const body = { email, password };
+      
+      if (!isLogin) {
+        // Default role to organizer or attendee as required by backend (API spec requires this)
+        body.role = 'organizer'; 
+      }
+
+      const response = await fetch(`${baseUrl}${endpoint}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
+        body: JSON.stringify(body)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        if (data.access_token) {
+          localStorage.setItem('token', data.access_token);
+        }
+        // Redirect to homepage or joining point on success
+         navigate('/dashboard');
+      } else {
+        console.error('Auth failed:', data);
+        alert(data.error?.message || data.message || 'Authentication failed');
+      }
+     
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Could not connect to the server');
+    } finally {
       setLoading(false);
-      navigate(role === 'ORGANIZER' ? '/dashboard' : '/join');
-    }, 1000);
+    }
   };
 
   return (
@@ -33,60 +70,20 @@ export default function Auth() {
           <CardDescription>
             {isLogin 
               ? 'Enter your credentials to access your account' 
-              : 'Sign up to start organizing or finding photos'}
+              : 'Sign up for a new account'}
           </CardDescription>
         </CardHeader>
         
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             
-            {/* Role Switcher */}
-            {!isLogin && (
-              <div className="flex p-1 bg-muted/50 rounded-xl mb-4">
-                <button
-                  type="button"
-                  onClick={() => setRole('USER')}
-                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
-                    role === 'USER' 
-                      ? 'bg-background shadow-sm text-foreground' 
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  Participant
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRole('ORGANIZER')}
-                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
-                    role === 'ORGANIZER' 
-                      ? 'bg-background shadow-sm text-foreground' 
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  Organizer
-                </button>
-              </div>
-            )}
 
-            {!isLogin && (
-              <div className="space-y-1">
-                <div className="relative">
-                  <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
-                  <Input 
-                    type="text" 
-                    placeholder="Full Name" 
-                    className="pl-10" 
-                    required 
-                  />
-                </div>
-              </div>
-            )}
-            
             <div className="space-y-1">
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                 <Input 
-                  type="email" 
+                  type="email"
+                  name="email"
                   placeholder="name@example.com" 
                   className="pl-10" 
                   required 
@@ -99,6 +96,7 @@ export default function Auth() {
                 <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
                 <Input 
                   type="password" 
+                  name="password"
                   placeholder="Password" 
                   className="pl-10" 
                   required 

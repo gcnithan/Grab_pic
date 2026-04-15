@@ -13,7 +13,7 @@ export function Navbar() {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Join Event', path: '/join' },
-    { name: 'Organizer Dashboard', path: '/dashboard' },
+    // { name: 'Organizer Dashboard', path: '/dashboard' },
   ];
 
   return (

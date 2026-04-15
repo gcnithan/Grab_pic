@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+
+  ml-service:
+    build:
+      context: ./ml-service
+    container_name: ml-service
+    ports:
+      - "8001:8000"
+
+  worker:
+    build: ./miniProject_backend-main
+    depends_on:
+      - redis
+      - ml-service
+    environment:
+      - REDIS_URL=redis://redis:6379

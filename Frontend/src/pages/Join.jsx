@@ -3,22 +3,54 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { ArrowRight, QrCode } from 'lucide-react';
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export default function Join() {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleJoin = (e) => {
+  const handleJoin = async (e) => {
     e.preventDefault();
     if (code.length < 3) return;
-    
+
     setLoading(true);
-    // Simulate API verification
-    setTimeout(() => {
-      setLoading(false);
-      navigate(`/event/${code}/scanner`);
-    }, 800);
+    try {
+      const token = localStorage.getItem('token');
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
+      const response = await fetch(`${baseUrl}/events/join`, {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ join_code: code })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Join failed:', data);
+        alert(data.error?.message || data.message || 'Invalid join code');
+        setLoading(false);
+        return;
+      }
+
+      // Save token (it will be a new guest token or the same user token)
+      if (data.access_token) {
+        localStorage.setItem('token', data.access_token);
+      }
+
+      // We need the event ID to pass things along to the scanner
+      navigate(`/event/${data.event.id}/scanner`);
+      
+    } catch (err) {
+      console.error(err);
+      alert('Network error while joining event');
+    } finally {
+      if (window.location.pathname === '/join') {
+        setLoading(false);
+      }
+    }
   };
 
   return (
