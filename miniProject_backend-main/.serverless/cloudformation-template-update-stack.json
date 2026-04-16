@@ -1,0 +1,2041 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "The AWS CloudFormation template for this Serverless application",
+  "Resources": {
+    "AuthRegisterLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-authRegister"
+      }
+    },
+    "AuthLoginLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-authLogin"
+      }
+    },
+    "AuthRefreshLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-authRefresh"
+      }
+    },
+    "AuthGuestLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-authGuest"
+      }
+    },
+    "EventsCreateLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-eventsCreate"
+      }
+    },
+    "EventsListLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-eventsList"
+      }
+    },
+    "EventsGetLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-eventsGet"
+      }
+    },
+    "EventsUpdateLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-eventsUpdate"
+      }
+    },
+    "EventsJoinLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-eventsJoin"
+      }
+    },
+    "PhotosPresignLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-photosPresign"
+      }
+    },
+    "PhotosConfirmLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-photosConfirm"
+      }
+    },
+    "PhotosListLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-photosList"
+      }
+    },
+    "PhotosDownloadLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-photosDownload"
+      }
+    },
+    "SearchFacesLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/miniProject-backend-service-dev-searchFaces"
+      }
+    },
+    "IamRoleLambdaExecution": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": {
+              "Fn::Join": [
+                "-",
+                [
+                  "miniProject-backend-service",
+                  "dev",
+                  "lambda"
+                ]
+              ]
+            },
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogStream",
+                    "logs:CreateLogGroup",
+                    "logs:TagResource"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miniProject-backend-service-dev*:*"
+                    }
+                  ]
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:PutLogEvents"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miniProject-backend-service-dev*:*:*"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "Path": "/",
+        "RoleName": {
+          "Fn::Join": [
+            "-",
+            [
+              "miniProject-backend-service",
+              "dev",
+              {
+                "Ref": "AWS::Region"
+              },
+              "lambdaRole"
+            ]
+          ]
+        }
+      }
+    },
+    "AuthRegisterLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/auth/register.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-authRegister",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "AuthRegisterLogGroup"
+      ]
+    },
+    "AuthLoginLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/auth/login.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-authLogin",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "AuthLoginLogGroup"
+      ]
+    },
+    "AuthRefreshLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/auth/refresh.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-authRefresh",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "AuthRefreshLogGroup"
+      ]
+    },
+    "AuthGuestLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/auth/guest.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-authGuest",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "AuthGuestLogGroup"
+      ]
+    },
+    "EventsCreateLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/events/create.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-eventsCreate",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "EventsCreateLogGroup"
+      ]
+    },
+    "EventsListLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/events/list.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-eventsList",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "EventsListLogGroup"
+      ]
+    },
+    "EventsGetLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/events/get.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-eventsGet",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "EventsGetLogGroup"
+      ]
+    },
+    "EventsUpdateLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/events/update.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-eventsUpdate",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "EventsUpdateLogGroup"
+      ]
+    },
+    "EventsJoinLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/events/join.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-eventsJoin",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "EventsJoinLogGroup"
+      ]
+    },
+    "PhotosPresignLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/photos/presign.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-photosPresign",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "PhotosPresignLogGroup"
+      ]
+    },
+    "PhotosConfirmLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/photos/confirm.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-photosConfirm",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "PhotosConfirmLogGroup"
+      ]
+    },
+    "PhotosListLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/photos/list.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-photosList",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "PhotosListLogGroup"
+      ]
+    },
+    "PhotosDownloadLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/photos/download.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-photosDownload",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "PhotosDownloadLogGroup"
+      ]
+    },
+    "SearchFacesLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+          "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+        },
+        "Handler": "src/handlers/search/search.handler",
+        "Runtime": "nodejs20.x",
+        "FunctionName": "miniProject-backend-service-dev-searchFaces",
+        "MemorySize": 1024,
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "NODE_ENV": "dev",
+            "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
+            "REDIS_URL": "redis://localhost:6379",
+            "S3_BUCKET": "photo-search-event-images",
+            "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
+            "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
+            "ML_EMBEDDING_URL": "http://localhost:8001"
+          }
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        }
+      },
+      "DependsOn": [
+        "SearchFacesLogGroup"
+      ]
+    },
+    "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthRegisterLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthLoginLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthRefreshLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "AuthGuestLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "EventsCreateLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "EventsListLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "EventsGetLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "EventsUpdateLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "EventsJoinLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PhotosPresignLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PhotosConfirmLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PhotosListLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "PhotosDownloadLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "SearchFacesLambdaFunction"
+        },
+        "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+      }
+    },
+    "HttpApi": {
+      "Type": "AWS::ApiGatewayV2::Api",
+      "Properties": {
+        "Name": "dev-miniProject-backend-service",
+        "ProtocolType": "HTTP",
+        "CorsConfiguration": {
+          "AllowHeaders": [
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With"
+          ],
+          "AllowMethods": [
+            "GET",
+            "POST",
+            "PATCH",
+            "PUT",
+            "DELETE",
+            "OPTIONS"
+          ],
+          "AllowOrigins": [
+            "http://localhost:5173"
+          ],
+          "MaxAge": 600
+        }
+      }
+    },
+    "HttpApiStage": {
+      "Type": "AWS::ApiGatewayV2::Stage",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "StageName": "$default",
+        "AutoDeploy": true,
+        "DefaultRouteSettings": {
+          "DetailedMetricsEnabled": false
+        }
+      }
+    },
+    "AuthRegisterLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthRegisterLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationAuthRegister": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "AuthRegisterLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostAuthRegister": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /auth/register",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationAuthRegister"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationAuthRegister"
+    },
+    "AuthLoginLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthLoginLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationAuthLogin": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "AuthLoginLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostAuthLogin": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /auth/login",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationAuthLogin"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationAuthLogin"
+    },
+    "AuthRefreshLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthRefreshLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationAuthRefresh": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "AuthRefreshLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostAuthRefresh": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /auth/refresh",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationAuthRefresh"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationAuthRefresh"
+    },
+    "AuthGuestLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "AuthGuestLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationAuthGuest": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "AuthGuestLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostAuthGuest": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /auth/guest",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationAuthGuest"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationAuthGuest"
+    },
+    "EventsCreateLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "EventsCreateLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationEventsCreate": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "EventsCreateLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostEvents": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /events",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationEventsCreate"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationEventsCreate"
+    },
+    "EventsListLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "EventsListLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationEventsList": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "EventsListLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRouteGetEvents": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "GET /events",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationEventsList"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationEventsList"
+    },
+    "EventsGetLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "EventsGetLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationEventsGet": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "EventsGetLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRouteGetEventsEventidVar": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "GET /events/{eventId}",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationEventsGet"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationEventsGet"
+    },
+    "EventsUpdateLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "EventsUpdateLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationEventsUpdate": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "EventsUpdateLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePatchEventsEventidVar": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "PATCH /events/{eventId}",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationEventsUpdate"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationEventsUpdate"
+    },
+    "EventsJoinLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "EventsJoinLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationEventsJoin": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "EventsJoinLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostEventsJoin": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /events/join",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationEventsJoin"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationEventsJoin"
+    },
+    "PhotosPresignLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "PhotosPresignLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationPhotosPresign": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "PhotosPresignLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostEventsEventidVarPhotosPresign": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /events/{eventId}/photos/presign",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationPhotosPresign"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationPhotosPresign"
+    },
+    "PhotosConfirmLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "PhotosConfirmLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationPhotosConfirm": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "PhotosConfirmLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostEventsEventidVarPhotosConfirm": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /events/{eventId}/photos/confirm",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationPhotosConfirm"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationPhotosConfirm"
+    },
+    "PhotosListLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "PhotosListLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationPhotosList": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "PhotosListLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRouteGetEventsEventidVarPhotos": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "GET /events/{eventId}/photos",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationPhotosList"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationPhotosList"
+    },
+    "PhotosDownloadLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "PhotosDownloadLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationPhotosDownload": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "PhotosDownloadLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRouteGetEventsEventidVarPhotosPhotoidVarDownload": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "GET /events/{eventId}/photos/{photoId}/download",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationPhotosDownload"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationPhotosDownload"
+    },
+    "SearchFacesLambdaPermissionHttpApi": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "SearchFacesLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition"
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "HttpApi"
+              },
+              "/*"
+            ]
+          ]
+        }
+      }
+    },
+    "HttpApiIntegrationSearchFaces": {
+      "Type": "AWS::ApiGatewayV2::Integration",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "IntegrationType": "AWS_PROXY",
+        "IntegrationUri": {
+          "Fn::GetAtt": [
+            "SearchFacesLambdaFunction",
+            "Arn"
+          ]
+        },
+        "PayloadFormatVersion": "2.0",
+        "TimeoutInMillis": 30000
+      }
+    },
+    "HttpApiRoutePostEventsEventidVarSearch": {
+      "Type": "AWS::ApiGatewayV2::Route",
+      "Properties": {
+        "ApiId": {
+          "Ref": "HttpApi"
+        },
+        "RouteKey": "POST /events/{eventId}/search",
+        "Target": {
+          "Fn::Join": [
+            "/",
+            [
+              "integrations",
+              {
+                "Ref": "HttpApiIntegrationSearchFaces"
+              }
+            ]
+          ]
+        }
+      },
+      "DependsOn": "HttpApiIntegrationSearchFaces"
+    }
+  },
+  "Outputs": {
+    "ServerlessDeploymentBucketName": {
+      "Value": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-ServerlessDeploymentBucketName"
+      }
+    },
+    "AuthRegisterLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
+      }
+    },
+    "AuthLoginLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
+      }
+    },
+    "AuthRefreshLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
+      }
+    },
+    "AuthGuestLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
+      }
+    },
+    "EventsCreateLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
+      }
+    },
+    "EventsListLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
+      }
+    },
+    "EventsGetLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
+      }
+    },
+    "EventsUpdateLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
+      }
+    },
+    "EventsJoinLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
+      }
+    },
+    "PhotosPresignLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
+      }
+    },
+    "PhotosConfirmLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
+      }
+    },
+    "PhotosListLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
+      }
+    },
+    "PhotosDownloadLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
+      }
+    },
+    "SearchFacesLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"
+      }
+    },
+    "HttpApiId": {
+      "Description": "Id of the HTTP API",
+      "Value": {
+        "Ref": "HttpApi"
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-HttpApiId"
+      }
+    },
+    "HttpApiUrl": {
+      "Description": "URL of the HTTP API",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "HttpApi"
+            },
+            ".execute-api.",
+            {
+              "Ref": "AWS::Region"
+            },
+            ".",
+            {
+              "Ref": "AWS::URLSuffix"
+            }
+          ]
+        ]
+      },
+      "Export": {
+        "Name": "sls-miniProject-backend-service-dev-HttpApiUrl"
+      }
+    }
+  }
+}
