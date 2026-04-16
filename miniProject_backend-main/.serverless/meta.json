@@ -5,13 +5,28 @@
     "serviceConfigFileName": "serverless.yml",
     "service": {
       "org": "nithan",
-      "app": "miniProject-backend",
+      "app": "miniproject-backend",
       "service": "miniProject-backend-service",
       "provider": {
         "name": "aws",
         "runtime": "nodejs20.x",
         "stage": "dev",
         "region": "ap-south-1",
+        "iam": {
+          "role": {
+            "statements": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:PutObject",
+                  "s3:GetObject",
+                  "s3:DeleteObject"
+                ],
+                "Resource": "arn:aws:s3:::photo-search-event-images/*"
+              }
+            ]
+          }
+        },
         "httpApi": {
           "cors": {
             "allowedOrigins": [
@@ -37,7 +52,7 @@
         "environment": {
           "NODE_ENV": "dev",
           "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-          "REDIS_URL": "redis://localhost:6379",
+          "REDIS_URL": "redis://redis:6379",
           "S3_BUCKET": "photo-search-event-images",
           "JWT_ACCESS_SECRET": "<REDACTED>",
           "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -189,6 +204,15 @@
                               "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miniProject-backend-service-dev*:*:*"
                             }
                           ]
+                        },
+                        {
+                          "Effect": "Allow",
+                          "Action": [
+                            "s3:PutObject",
+                            "s3:GetObject",
+                            "s3:DeleteObject"
+                          ],
+                          "Resource": "arn:aws:s3:::photo-search-event-images/*"
                         }
                       ]
                     }
@@ -215,7 +239,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/auth/register.handler",
                 "Runtime": "nodejs20.x",
@@ -226,7 +250,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -249,7 +273,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/auth/login.handler",
                 "Runtime": "nodejs20.x",
@@ -260,7 +284,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -283,7 +307,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/auth/refresh.handler",
                 "Runtime": "nodejs20.x",
@@ -294,7 +318,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -317,7 +341,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/auth/guest.handler",
                 "Runtime": "nodejs20.x",
@@ -328,7 +352,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -351,7 +375,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/events/create.handler",
                 "Runtime": "nodejs20.x",
@@ -362,7 +386,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -385,7 +409,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/events/list.handler",
                 "Runtime": "nodejs20.x",
@@ -396,7 +420,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -419,7 +443,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/events/get.handler",
                 "Runtime": "nodejs20.x",
@@ -430,7 +454,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -453,7 +477,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/events/update.handler",
                 "Runtime": "nodejs20.x",
@@ -464,7 +488,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -487,7 +511,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/events/join.handler",
                 "Runtime": "nodejs20.x",
@@ -498,7 +522,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -521,7 +545,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/photos/presign.handler",
                 "Runtime": "nodejs20.x",
@@ -532,7 +556,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -555,7 +579,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/photos/confirm.handler",
                 "Runtime": "nodejs20.x",
@@ -566,7 +590,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -589,7 +613,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/photos/list.handler",
                 "Runtime": "nodejs20.x",
@@ -600,7 +624,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -623,7 +647,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/photos/download.handler",
                 "Runtime": "nodejs20.x",
@@ -634,7 +658,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -657,7 +681,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                  "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                  "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
                 },
                 "Handler": "src/handlers/search/search.handler",
                 "Runtime": "nodejs20.x",
@@ -668,7 +692,7 @@
                   "Variables": {
                     "NODE_ENV": "dev",
                     "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                    "REDIS_URL": "redis://localhost:6379",
+                    "REDIS_URL": "redis://redis:6379",
                     "S3_BUCKET": "photo-search-event-images",
                     "JWT_ACCESS_SECRET": "<REDACTED>",
                     "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -686,144 +710,144 @@
                 "SearchFacesLogGroup"
               ]
             },
-            "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ": {
+            "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AuthRegisterLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs": {
+            "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AuthLoginLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8": {
+            "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AuthRefreshLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54": {
+            "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AuthGuestLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g": {
+            "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EventsCreateLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0": {
+            "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EventsListLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw": {
+            "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EventsGetLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA": {
+            "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EventsUpdateLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ": {
+            "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "EventsJoinLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY": {
+            "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PhotosPresignLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA": {
+            "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PhotosConfirmLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0": {
+            "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PhotosListLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw": {
+            "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "PhotosDownloadLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
-            "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk": {
+            "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "SearchFacesLambdaFunction"
                 },
-                "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+                "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
               }
             },
             "HttpApi": {
@@ -1927,7 +1951,7 @@
             "AuthRegisterLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ"
+                "Ref": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
@@ -1936,7 +1960,7 @@
             "AuthLoginLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs"
+                "Ref": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -1945,7 +1969,7 @@
             "AuthRefreshLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8"
+                "Ref": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
@@ -1954,7 +1978,7 @@
             "AuthGuestLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54"
+                "Ref": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
@@ -1963,7 +1987,7 @@
             "EventsCreateLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g"
+                "Ref": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
@@ -1972,7 +1996,7 @@
             "EventsListLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0"
+                "Ref": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
@@ -1981,7 +2005,7 @@
             "EventsGetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw"
+                "Ref": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
@@ -1990,7 +2014,7 @@
             "EventsUpdateLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA"
+                "Ref": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
@@ -1999,7 +2023,7 @@
             "EventsJoinLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ"
+                "Ref": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
@@ -2008,7 +2032,7 @@
             "PhotosPresignLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY"
+                "Ref": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
@@ -2017,7 +2041,7 @@
             "PhotosConfirmLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA"
+                "Ref": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
@@ -2026,7 +2050,7 @@
             "PhotosListLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0"
+                "Ref": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
@@ -2035,7 +2059,7 @@
             "PhotosDownloadLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw"
+                "Ref": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
@@ -2044,7 +2068,7 @@
             "SearchFacesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk"
+                "Ref": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
               },
               "Export": {
                 "Name": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"
@@ -2107,7 +2131,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ"
+          "versionLogicalId": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
         },
         "authLogin": {
           "handler": "src/handlers/auth/login.handler",
@@ -2127,7 +2151,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs"
+          "versionLogicalId": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
         },
         "authRefresh": {
           "handler": "src/handlers/auth/refresh.handler",
@@ -2147,7 +2171,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8"
+          "versionLogicalId": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
         },
         "authGuest": {
           "handler": "src/handlers/auth/guest.handler",
@@ -2167,7 +2191,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54"
+          "versionLogicalId": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
         },
         "eventsCreate": {
           "handler": "src/handlers/events/create.handler",
@@ -2187,7 +2211,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g"
+          "versionLogicalId": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
         },
         "eventsList": {
           "handler": "src/handlers/events/list.handler",
@@ -2207,7 +2231,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0"
+          "versionLogicalId": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
         },
         "eventsGet": {
           "handler": "src/handlers/events/get.handler",
@@ -2227,7 +2251,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw"
+          "versionLogicalId": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
         },
         "eventsUpdate": {
           "handler": "src/handlers/events/update.handler",
@@ -2247,7 +2271,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA"
+          "versionLogicalId": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
         },
         "eventsJoin": {
           "handler": "src/handlers/events/join.handler",
@@ -2267,7 +2291,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ"
+          "versionLogicalId": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
         },
         "photosPresign": {
           "handler": "src/handlers/photos/presign.handler",
@@ -2287,7 +2311,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY"
+          "versionLogicalId": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
         },
         "photosConfirm": {
           "handler": "src/handlers/photos/confirm.handler",
@@ -2307,7 +2331,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA"
+          "versionLogicalId": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
         },
         "photosList": {
           "handler": "src/handlers/photos/list.handler",
@@ -2327,7 +2351,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0"
+          "versionLogicalId": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
         },
         "photosDownload": {
           "handler": "src/handlers/photos/download.handler",
@@ -2347,7 +2371,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw"
+          "versionLogicalId": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
         },
         "searchFaces": {
           "handler": "src/handlers/search/search.handler",
@@ -2367,7 +2391,7 @@
           "timeout": 6,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk"
+          "versionLogicalId": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
         }
       },
       "plugins": [
@@ -2385,6 +2409,21 @@
       "runtime": "nodejs20.x",
       "stage": "dev",
       "region": "ap-south-1",
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject"
+              ],
+              "Resource": "arn:aws:s3:::photo-search-event-images/*"
+            }
+          ]
+        }
+      },
       "httpApi": {
         "cors": {
           "allowedOrigins": [
@@ -2410,7 +2449,7 @@
       "environment": {
         "NODE_ENV": "dev",
         "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-        "REDIS_URL": "redis://localhost:6379",
+        "REDIS_URL": "redis://redis:6379",
         "S3_BUCKET": "photo-search-event-images",
         "JWT_ACCESS_SECRET": "<REDACTED>",
         "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2562,6 +2601,15 @@
                             "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miniProject-backend-service-dev*:*:*"
                           }
                         ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "s3:PutObject",
+                          "s3:GetObject",
+                          "s3:DeleteObject"
+                        ],
+                        "Resource": "arn:aws:s3:::photo-search-event-images/*"
                       }
                     ]
                   }
@@ -2588,7 +2636,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/register.handler",
               "Runtime": "nodejs20.x",
@@ -2599,7 +2647,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2622,7 +2670,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/login.handler",
               "Runtime": "nodejs20.x",
@@ -2633,7 +2681,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2656,7 +2704,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/refresh.handler",
               "Runtime": "nodejs20.x",
@@ -2667,7 +2715,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2690,7 +2738,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/guest.handler",
               "Runtime": "nodejs20.x",
@@ -2701,7 +2749,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2724,7 +2772,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/create.handler",
               "Runtime": "nodejs20.x",
@@ -2735,7 +2783,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2758,7 +2806,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/list.handler",
               "Runtime": "nodejs20.x",
@@ -2769,7 +2817,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2792,7 +2840,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/get.handler",
               "Runtime": "nodejs20.x",
@@ -2803,7 +2851,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2826,7 +2874,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/update.handler",
               "Runtime": "nodejs20.x",
@@ -2837,7 +2885,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2860,7 +2908,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/join.handler",
               "Runtime": "nodejs20.x",
@@ -2871,7 +2919,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2894,7 +2942,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/presign.handler",
               "Runtime": "nodejs20.x",
@@ -2905,7 +2953,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2928,7 +2976,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/confirm.handler",
               "Runtime": "nodejs20.x",
@@ -2939,7 +2987,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2962,7 +3010,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/list.handler",
               "Runtime": "nodejs20.x",
@@ -2973,7 +3021,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -2996,7 +3044,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/download.handler",
               "Runtime": "nodejs20.x",
@@ -3007,7 +3055,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -3030,7 +3078,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/search/search.handler",
               "Runtime": "nodejs20.x",
@@ -3041,7 +3089,7 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://localhost:6379",
+                  "REDIS_URL": "redis://redis:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "<REDACTED>",
                   "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -3059,144 +3107,144 @@
               "SearchFacesLogGroup"
             ]
           },
-          "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ": {
+          "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthRegisterLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs": {
+          "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLoginLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8": {
+          "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthRefreshLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54": {
+          "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthGuestLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g": {
+          "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsCreateLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0": {
+          "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsListLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw": {
+          "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsGetLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA": {
+          "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsUpdateLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ": {
+          "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsJoinLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY": {
+          "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosPresignLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA": {
+          "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosConfirmLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0": {
+          "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosListLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw": {
+          "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosDownloadLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
-          "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk": {
+          "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SearchFacesLambdaFunction"
               },
-              "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
             }
           },
           "HttpApi": {
@@ -4300,7 +4348,7 @@
           "AuthRegisterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ"
+              "Ref": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
@@ -4309,7 +4357,7 @@
           "AuthLoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs"
+              "Ref": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -4318,7 +4366,7 @@
           "AuthRefreshLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8"
+              "Ref": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
@@ -4327,7 +4375,7 @@
           "AuthGuestLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54"
+              "Ref": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
@@ -4336,7 +4384,7 @@
           "EventsCreateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g"
+              "Ref": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
@@ -4345,7 +4393,7 @@
           "EventsListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0"
+              "Ref": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
@@ -4354,7 +4402,7 @@
           "EventsGetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw"
+              "Ref": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
@@ -4363,7 +4411,7 @@
           "EventsUpdateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA"
+              "Ref": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
@@ -4372,7 +4420,7 @@
           "EventsJoinLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ"
+              "Ref": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
@@ -4381,7 +4429,7 @@
           "PhotosPresignLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY"
+              "Ref": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
@@ -4390,7 +4438,7 @@
           "PhotosConfirmLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA"
+              "Ref": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
@@ -4399,7 +4447,7 @@
           "PhotosListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0"
+              "Ref": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
@@ -4408,7 +4456,7 @@
           "PhotosDownloadLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw"
+              "Ref": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
@@ -4417,7 +4465,7 @@
           "SearchFacesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk"
+              "Ref": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"
@@ -4469,11 +4517,11 @@
         "monitoring": false
       },
       "orgObservabilityIntegrations": null,
-      "serviceAppId": null,
+      "serviceAppId": "59bLnjNmNm7FgmbwMW",
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: nithan\napp: miniProject-backend\nservice: miniProject-backend-service\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  stage: ${opt:stage, 'dev'}\n  region: ${opt:region, 'ap-south-1'}\n  httpApi:\n    cors:\n      allowedOrigins:\n        - http://localhost:5173\n      allowedHeaders:\n        - Content-Type\n        - Authorization\n        - X-Requested-With\n      allowedMethods:\n        - GET\n        - POST\n        - PATCH\n        - PUT\n        - DELETE\n        - OPTIONS\n      allowCredentials: false\n      maxAge: 600\n  environment:\n    NODE_ENV: ${self:provider.stage}\n    DATABASE_URL: ${env:DATABASE_URL, ''}\n    REDIS_URL: ${env:REDIS_URL, ''}\n    S3_BUCKET: ${env:S3_BUCKET, ''}\n    JWT_ACCESS_SECRET: ${env:JWT_ACCESS_SECRET, ''}\n    JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET, ''}\n    ML_EMBEDDING_URL: ${env:ML_EMBEDDING_URL, ''}\n\nfunctions:\n  # Auth\n  authRegister:\n    handler: src/handlers/auth/register.handler\n    events:\n      - httpApi:\n          path: /auth/register\n          method: post\n  authLogin:\n    handler: src/handlers/auth/login.handler\n    events:\n      - httpApi:\n          path: /auth/login\n          method: post\n  authRefresh:\n    handler: src/handlers/auth/refresh.handler\n    events:\n      - httpApi:\n          path: /auth/refresh\n          method: post\n  authGuest:\n    handler: src/handlers/auth/guest.handler\n    events:\n      - httpApi:\n          path: /auth/guest\n          method: post\n\n  # Events (organizer)\n  eventsCreate:\n    handler: src/handlers/events/create.handler\n    events:\n      - httpApi:\n          path: /events\n          method: post\n  eventsList:\n    handler: src/handlers/events/list.handler\n    events:\n      - httpApi:\n          path: /events\n          method: get\n  eventsGet:\n    handler: src/handlers/events/get.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}\n          method: get\n  eventsUpdate:\n    handler: src/handlers/events/update.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}\n          method: patch\n\n  # Join (guest / attendee)\n  eventsJoin:\n    handler: src/handlers/events/join.handler\n    events:\n      - httpApi:\n          path: /events/join\n          method: post\n\n  # Photos (organizer)\n  photosPresign:\n    handler: src/handlers/photos/presign.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/presign\n          method: post\n  photosConfirm:\n    handler: src/handlers/photos/confirm.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/confirm\n          method: post\n  photosList:\n    handler: src/handlers/photos/list.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos\n          method: get\n\n  # Photo download (attendee)\n  photosDownload:\n    handler: src/handlers/photos/download.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/{photoId}/download\n          method: get\n\n  # Search (attendee)\n  searchFaces:\n    handler: src/handlers/search/search.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/search\n          method: post\n\nplugins:\n  - serverless-offline\n\ncustom:\n  serverless-offline:\n    httpPort: 3000\n    noPrependStageInUrl: true\n",
+    "serviceRawFile": "# \"org\" ensures this Service is used with the correct Serverless Framework Access Key.\norg: nithan\napp: miniproject-backend\nservice: miniProject-backend-service\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  stage: ${opt:stage, 'dev'}\n  region: ${opt:region, 'ap-south-1'}\n  iam:\n    role:\n      statements:\n        - Effect: Allow\n          Action:\n            - s3:PutObject\n            - s3:GetObject\n            - s3:DeleteObject\n          Resource: \"arn:aws:s3:::photo-search-event-images/*\"\n  httpApi:\n    cors:\n      allowedOrigins:\n        - http://localhost:5173\n      allowedHeaders:\n        - Content-Type\n        - Authorization\n        - X-Requested-With\n      allowedMethods:\n        - GET\n        - POST\n        - PATCH\n        - PUT\n        - DELETE\n        - OPTIONS\n      allowCredentials: false\n      maxAge: 600\n  environment:\n    NODE_ENV: ${self:provider.stage}\n    DATABASE_URL: ${env:DATABASE_URL, ''}\n    REDIS_URL: ${env:REDIS_URL, ''}\n    S3_BUCKET: ${env:S3_BUCKET, ''}\n    JWT_ACCESS_SECRET: ${env:JWT_ACCESS_SECRET, ''}\n    JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET, ''}\n    ML_EMBEDDING_URL: ${env:ML_EMBEDDING_URL, ''}\n\nfunctions:\n  # Auth\n  authRegister:\n    handler: src/handlers/auth/register.handler\n    events:\n      - httpApi:\n          path: /auth/register\n          method: post\n  authLogin:\n    handler: src/handlers/auth/login.handler\n    events:\n      - httpApi:\n          path: /auth/login\n          method: post\n  authRefresh:\n    handler: src/handlers/auth/refresh.handler\n    events:\n      - httpApi:\n          path: /auth/refresh\n          method: post\n  authGuest:\n    handler: src/handlers/auth/guest.handler\n    events:\n      - httpApi:\n          path: /auth/guest\n          method: post\n\n  # Events (organizer)\n  eventsCreate:\n    handler: src/handlers/events/create.handler\n    events:\n      - httpApi:\n          path: /events\n          method: post\n  eventsList:\n    handler: src/handlers/events/list.handler\n    events:\n      - httpApi:\n          path: /events\n          method: get\n  eventsGet:\n    handler: src/handlers/events/get.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}\n          method: get\n  eventsUpdate:\n    handler: src/handlers/events/update.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}\n          method: patch\n\n  # Join (guest / attendee)\n  eventsJoin:\n    handler: src/handlers/events/join.handler\n    events:\n      - httpApi:\n          path: /events/join\n          method: post\n\n  # Photos (organizer)\n  photosPresign:\n    handler: src/handlers/photos/presign.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/presign\n          method: post\n  photosConfirm:\n    handler: src/handlers/photos/confirm.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/confirm\n          method: post\n  photosList:\n    handler: src/handlers/photos/list.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos\n          method: get\n\n  # Photo download (attendee)\n  photosDownload:\n    handler: src/handlers/photos/download.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/photos/{photoId}/download\n          method: get\n\n  # Search (attendee)\n  searchFaces:\n    handler: src/handlers/search/search.handler\n    events:\n      - httpApi:\n          path: /events/{eventId}/search\n          method: post\n\nplugins:\n  - serverless-offline\n\ncustom:\n  serverless-offline:\n    httpPort: 3000\n    noPrependStageInUrl: true\n",
     "command": [
       "deploy"
     ],
@@ -4484,50 +4532,50 @@
     "userName": "nithan",
     "serviceProviderAwsAccountId": "346299179140",
     "serviceProviderAwsCfStackName": "miniProject-backend-service-dev",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-south-1:346299179140:stack/miniProject-backend-service-dev/3c823550-2107-11f1-bdfc-06c647aa5b6b",
-    "serviceProviderAwsCfStackCreated": "2026-03-16T07:10:39.609Z",
-    "serviceProviderAwsCfStackUpdated": "2026-04-15T04:50:03.870Z",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:ap-south-1:346299179140:stack/miniProject-backend-service-dev/3a02db70-3987-11f1-a799-0618da51de8b",
+    "serviceProviderAwsCfStackCreated": "2026-04-16T11:27:18.277Z",
+    "serviceProviderAwsCfStackUpdated": "2026-04-16T13:36:08.055Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "AuthRegisterLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authRegister:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authRegister:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "AuthGuestLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authGuest:1",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authGuest:8",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "EventsJoinLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsJoin:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsJoin:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "SearchFacesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-searchFaces:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-searchFaces:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "EventsGetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsGet:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsGet:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "HttpApiId",
-        "OutputValue": "6oiy832kz9",
+        "OutputValue": "jd2j36pu72",
         "Description": "Id of the HTTP API",
         "ExportName": "sls-miniProject-backend-service-dev-HttpApiId"
       },
       {
         "OutputKey": "PhotosPresignLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosPresign:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosPresign:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
       },
@@ -4538,55 +4586,55 @@
       },
       {
         "OutputKey": "HttpApiUrl",
-        "OutputValue": "https://6oiy832kz9.execute-api.ap-south-1.amazonaws.com",
+        "OutputValue": "https://jd2j36pu72.execute-api.ap-south-1.amazonaws.com",
         "Description": "URL of the HTTP API",
         "ExportName": "sls-miniProject-backend-service-dev-HttpApiUrl"
       },
       {
         "OutputKey": "EventsUpdateLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsUpdate:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsUpdate:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "AuthRefreshLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authRefresh:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authRefresh:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "EventsListLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsList:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsList:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "PhotosListLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosList:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosList:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "PhotosDownloadLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosDownload:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosDownload:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "AuthLoginLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authLogin:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-authLogin:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "EventsCreateLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsCreate:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-eventsCreate:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "PhotosConfirmLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosConfirm:3",
+        "OutputValue": "arn:aws:lambda:ap-south-1:346299179140:function:miniProject-backend-service-dev-photosConfirm:10",
         "Description": "Current Lambda function version",
         "ExportName": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
       }
@@ -4736,6 +4784,15 @@
                           "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/miniProject-backend-service-dev*:*:*"
                         }
                       ]
+                    },
+                    {
+                      "Effect": "Allow",
+                      "Action": [
+                        "s3:PutObject",
+                        "s3:GetObject",
+                        "s3:DeleteObject"
+                      ],
+                      "Resource": "arn:aws:s3:::photo-search-event-images/*"
                     }
                   ]
                 }
@@ -4762,7 +4819,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/auth/register.handler",
             "Runtime": "nodejs20.x",
@@ -4773,7 +4830,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4796,7 +4853,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/auth/login.handler",
             "Runtime": "nodejs20.x",
@@ -4807,7 +4864,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4830,7 +4887,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/auth/refresh.handler",
             "Runtime": "nodejs20.x",
@@ -4841,7 +4898,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4864,7 +4921,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/auth/guest.handler",
             "Runtime": "nodejs20.x",
@@ -4875,7 +4932,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4898,7 +4955,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/events/create.handler",
             "Runtime": "nodejs20.x",
@@ -4909,7 +4966,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4932,7 +4989,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/events/list.handler",
             "Runtime": "nodejs20.x",
@@ -4943,7 +5000,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -4966,7 +5023,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/events/get.handler",
             "Runtime": "nodejs20.x",
@@ -4977,7 +5034,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5000,7 +5057,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/events/update.handler",
             "Runtime": "nodejs20.x",
@@ -5011,7 +5068,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5034,7 +5091,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/events/join.handler",
             "Runtime": "nodejs20.x",
@@ -5045,7 +5102,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5068,7 +5125,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/photos/presign.handler",
             "Runtime": "nodejs20.x",
@@ -5079,7 +5136,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5102,7 +5159,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/photos/confirm.handler",
             "Runtime": "nodejs20.x",
@@ -5113,7 +5170,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5136,7 +5193,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/photos/list.handler",
             "Runtime": "nodejs20.x",
@@ -5147,7 +5204,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5170,7 +5227,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/photos/download.handler",
             "Runtime": "nodejs20.x",
@@ -5181,7 +5238,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5204,7 +5261,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-              "S3Key": "serverless/miniProject-backend-service/dev/1776269117226-2026-04-15T16:05:17.226Z/miniProject-backend-service.zip"
+              "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
             },
             "Handler": "src/handlers/search/search.handler",
             "Runtime": "nodejs20.x",
@@ -5215,7 +5272,7 @@
               "Variables": {
                 "NODE_ENV": "dev",
                 "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                "REDIS_URL": "redis://localhost:6379",
+                "REDIS_URL": "redis://redis:6379",
                 "S3_BUCKET": "photo-search-event-images",
                 "JWT_ACCESS_SECRET": "<REDACTED>",
                 "JWT_REFRESH_SECRET": "<REDACTED>",
@@ -5233,144 +5290,144 @@
             "SearchFacesLogGroup"
           ]
         },
-        "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ": {
+        "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AuthRegisterLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs": {
+        "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AuthLoginLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8": {
+        "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AuthRefreshLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54": {
+        "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AuthGuestLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g": {
+        "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EventsCreateLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0": {
+        "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EventsListLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw": {
+        "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EventsGetLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA": {
+        "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EventsUpdateLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ": {
+        "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "EventsJoinLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY": {
+        "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "PhotosPresignLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA": {
+        "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "PhotosConfirmLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0": {
+        "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "PhotosListLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw": {
+        "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "PhotosDownloadLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
-        "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk": {
+        "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "SearchFacesLambdaFunction"
             },
-            "CodeSha256": "aBgkl8erFkPDfzvcTcKYVnw3LJ/0m9/jjM23G2jnyno="
+            "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
           }
         },
         "HttpApi": {
@@ -6473,7 +6530,7 @@
         "AuthRegisterLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AuthRegisterLambdaVersionk0ZeFHkkl39z7cc5YpnvZTw072QVQMDJH699p7AQ"
+            "Ref": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
@@ -6482,7 +6539,7 @@
         "AuthLoginLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AuthLoginLambdaVersionhc3ZKZleEHxuiTNYZJAhBjVPptRLtGAoCrQekXpNNs"
+            "Ref": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -6491,7 +6548,7 @@
         "AuthRefreshLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AuthRefreshLambdaVersionIBvNwiwfYr54mPOv63QyAsMD4EskvkGUyefFaJgbF8"
+            "Ref": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
@@ -6500,7 +6557,7 @@
         "AuthGuestLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AuthGuestLambdaVersion1Up07GQi6BTHNVzhKjJoIkQAmxlNVhHBV8xtdK32r54"
+            "Ref": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
@@ -6509,7 +6566,7 @@
         "EventsCreateLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EventsCreateLambdaVersionqCABB5gDtMvfLxCR0bzjhXv18x7nmMNOlAOhHFL6g"
+            "Ref": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
@@ -6518,7 +6575,7 @@
         "EventsListLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EventsListLambdaVersion5xds4ofhEIgNFPPfyvvKc3sQnyjHoR4bbc025l2lJ0"
+            "Ref": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
@@ -6527,7 +6584,7 @@
         "EventsGetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EventsGetLambdaVersionXGS6r8HE1ROXnVGQyN5qQEp1PkFE8596DycUWWzMFmw"
+            "Ref": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
@@ -6536,7 +6593,7 @@
         "EventsUpdateLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EventsUpdateLambdaVersionFCBMmEvL52wAI7Yg0soPh1rq0oV7JCJ15l4BFz7DA"
+            "Ref": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
@@ -6545,7 +6602,7 @@
         "EventsJoinLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "EventsJoinLambdaVersionhej59pLvykurnD1ezjW67jXPXtAWhHYJw3fBxMKQ"
+            "Ref": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
@@ -6554,7 +6611,7 @@
         "PhotosPresignLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "PhotosPresignLambdaVersionitLt5PbXydpMZCPQYtiTA27n1L7zivqeaett5JUCRY"
+            "Ref": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
@@ -6563,7 +6620,7 @@
         "PhotosConfirmLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "PhotosConfirmLambdaVersionmXWj3y8rV8lfdbC5ZLVzHcp9AA4NzZ2Lsp9YVOaFSA"
+            "Ref": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
@@ -6572,7 +6629,7 @@
         "PhotosListLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "PhotosListLambdaVersionX4nibQ1uH6Isp6oIH86ZvIWEOeuSka1NwjOCLsOvM0"
+            "Ref": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
@@ -6581,7 +6638,7 @@
         "PhotosDownloadLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "PhotosDownloadLambdaVersionudN93qzhRLvZFsZK7iJqZhCloHSWQAQMxr3LuIzfw"
+            "Ref": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
@@ -6590,7 +6647,7 @@
         "SearchFacesLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "SearchFacesLambdaVersionNG6HKvU59Eve4Ws0XGQjZp28Ypq319oPIgm7Dot1zk"
+            "Ref": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
           },
           "Export": {
             "Name": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"

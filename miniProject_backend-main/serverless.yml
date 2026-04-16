@@ -1,6 +1,6 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: nithan
-app: miniProject-backend
+app: miniproject-backend
 service: miniProject-backend-service
 
 provider:
@@ -8,6 +8,15 @@ provider:
   runtime: nodejs20.x
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'ap-south-1'}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:DeleteObject
+          Resource: "arn:aws:s3:::photo-search-event-images/*"
   httpApi:
     cors:
       allowedOrigins:
