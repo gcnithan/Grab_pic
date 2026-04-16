@@ -8,6 +8,7 @@ import OrganizerDashboard from '@/pages/OrganizerDashboard';
 import Join from '@/pages/Join';
 import Scanner from '@/pages/Scanner';
 import Gallery from '@/pages/Gallery';
+import EventDetails from '@/pages/EventDetails';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
               <Route path="/join" element={<Join />} />
               <Route path="/event/:id/scanner" element={<Scanner />} />
               <Route path="/event/:id/results" element={<Gallery />} />
+              <Route path="/event/:id/manage" element={<EventDetails />} />
             </Routes>
           </main>
         </div>

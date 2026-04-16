@@ -9,16 +9,20 @@ const {
 
 /* ---------------- ML EMBEDDING ---------------- */
 
-async function getEmbeddingFromML(imageBuffer) {
+async function getEmbeddingFromML(imageBase64) {
 
   if (!ML_EMBEDDING_URL) {
     return Array(512).fill(0).map(() => Math.random() * 0.01);
   }
 
-  const res = await fetch(ML_EMBEDDING_URL, {
+  const res = await fetch(`${ML_EMBEDDING_URL}/process`, {
     method: 'POST',
-    body: imageBuffer,
-    headers: { 'Content-Type': 'application/octet-stream' }
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      imageBase64: imageBase64
+    })
   });
 
   if (!res.ok) {
@@ -27,7 +31,11 @@ async function getEmbeddingFromML(imageBuffer) {
 
   const data = await res.json();
 
-  return data.embedding || data;
+  if (!data.faces || data.faces.length === 0) {
+    throw new Error('No face detected');
+  }
+
+  return data.faces[0].embedding;
 }
 
 /* ---------------- SEARCH ---------------- */

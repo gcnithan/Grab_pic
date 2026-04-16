@@ -1,6 +1,7 @@
 const photoService = require('../services/photoService');
 const { success, error, validationError } = require('../utils/response');
 const { HTTP_STATUS } = require('../config/constants');
+const { enqueueFaceJob } = require('../queues/faceQueue');
 
 /* PRESIGN */
 
@@ -69,18 +70,26 @@ async function confirmUpload({ eventId, photo_id, storage_key }) {
       );
 
     if (!result) {
-
       return error({
         statusCode: HTTP_STATUS.NOT_FOUND,
         message: 'Photo not found'
       });
-
     }
+
+    // 🔥 ADD THIS (CRITICAL FIX)
+    const jobId = await enqueueFaceJob({
+      photoId: photo_id,
+      eventId,
+      storageKey: storage_key
+    });
 
     return success({
       statusCode: HTTP_STATUS.OK,
       message: 'Photo confirmed',
-      data: result
+      data: {
+        ...result,
+        job_id: jobId   // ✅ NOW NOT NULL
+      }
     });
 
   } catch (err) {

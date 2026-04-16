@@ -1,28 +1,60 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { ArrowLeft, Download, Image as ImageIcon } from 'lucide-react';
 
 export default function Gallery() {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-  // Mock results
-  const photos = [
-    { id: 1, url: 'https://images.unsplash.com/photo-1540569014015-19a7be504e3a?w=400&h=400&fit=crop' },
-    { id: 2, url: 'https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=400&h=600&fit=crop' },
-    { id: 3, url: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=400&h=300&fit=crop' },
-    { id: 4, url: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=500&fit=crop' },
-    { id: 5, url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop' },
-  ];
+  const location = useLocation();
+  const [photos, setPhotos] = useState([]);
 
   useEffect(() => {
-    // Simulate network fetch
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
+    if (location.state?.matches) {
+       setPhotos(location.state.matches.map(m => ({
+         id: m.photo_id,
+         url: m.thumbnail_url
+       })));
+    }
+    setLoading(false);
+  }, [location.state]);
+
+  const handleDownload = async (photoId) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${baseUrl}/events/${id}/photos/${photoId}/download`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await res.json();
+      
+      if (res.ok && data.data?.url) {
+        // Trigger browser download by creating an anchor tag
+        const a = document.createElement('a');
+        a.href = data.data.url;
+        a.download = `photo-${photoId}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      } else {
+        alert(data.message || 'Download failed');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Network error during download');
+    }
+  };
+
+  const handleDownloadAll = async () => {
+    // In a real app this would zip them on the server.
+    // Here we'll sequentially trigger downloads safely.
+    for (const photo of photos) {
+       await handleDownload(photo.id);
+       // Small delay to prevent browser from blocking multiple popups/downloads
+       await new Promise(r => setTimeout(r, 500));
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 animate-fade-in min-h-[calc(100vh-4rem)]">
@@ -44,8 +76,8 @@ export default function Gallery() {
           </div>
         </div>
         
-        {!loading && (
-          <Button variant="outline" className="hidden sm:flex glass shadow-sm">
+        {!loading && photos.length > 0 && (
+          <Button variant="outline" className="hidden sm:flex glass shadow-sm" onClick={handleDownloadAll}>
             <Download className="w-4 h-4 mr-2" />
             Download All ({photos.length})
           </Button>
@@ -89,7 +121,15 @@ export default function Gallery() {
                   <span className="text-white text-xs font-medium bg-white/20 backdrop-blur-md px-2 py-1 rounded-md">
                     High Confidence
                   </span>
-                  <Button size="icon" variant="glass" className="h-8 w-8 rounded-full border-none">
+                  <Button 
+                    size="icon" 
+                    variant="glass" 
+                    className="h-8 w-8 rounded-full border-none z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDownload(photo.id);
+                    }}
+                  >
                     <Download className="w-4 h-4 text-white" />
                   </Button>
                 </div>
@@ -98,12 +138,14 @@ export default function Gallery() {
           </div>
 
           {/* Mobile Download All CTA */}
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 sm:hidden z-50">
-            <Button className="shadow-2xl shadow-primary/40 rounded-full px-8 h-14">
-              <Download className="w-5 h-5 mr-2" />
-              Download All
-            </Button>
-          </div>
+          {photos.length > 0 && (
+            <div className="fixed bottom-6 left-1/2 -translate-x-1/2 sm:hidden z-50">
+              <Button className="shadow-2xl shadow-primary/40 rounded-full px-8 h-14" onClick={handleDownloadAll}>
+                <Download className="w-5 h-5 mr-2" />
+                Download All
+              </Button>
+            </div>
+          )}
         </>
       )}
 

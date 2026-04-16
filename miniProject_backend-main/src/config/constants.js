@@ -57,5 +57,5 @@ module.exports = {
   QUEUE_NAME: 'face-processing',
 
   // ML embedding service (for face search)
-  ML_EMBEDDING_URL: process.env.ML_EMBEDDING_URL || '',
+  ML_EMBEDDING_URL: process.env.ML_EMBEDDING_URL || 'http://localhost:8001',
 };

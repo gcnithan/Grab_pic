@@ -19,8 +19,8 @@ export default function FaceScanner() {
 
   const startCamera = async () => {
     try {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'user', width: 720, height: 1280 } 
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: 720, height: 1280 }
       });
       setStream(mediaStream);
       if (videoRef.current) {
@@ -38,29 +38,52 @@ export default function FaceScanner() {
     }
   };
 
-  const capturePhoto = () => {
+  const capturePhoto = async () => {
     if (!videoRef.current || !canvasRef.current) return;
-    
+
     setScanning(true);
-    
+
     // Draw the current video frame onto the canvas
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    
+
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext('2d');
-    
+
     // Flip horizontal for mirror effect
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-    // Simulate Face Embedding Analysis
-    setTimeout(() => {
+
+    const base64Image = canvas.toDataURL('image/jpeg');
+
+    try {
+      const token = localStorage.getItem('token');
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+      const response = await fetch(`${baseUrl}/events/${id}/search`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image: base64Image })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        navigate(`/event/${id}/results`, { state: { matches: data.data?.matches || [] } });
+      } else {
+        setError(data.message || data.error?.message || 'Error occurred during search');
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Network Error. Could not connect to search service.');
+    } finally {
+      setScanning(false);
       stopCamera();
-      navigate(`/event/${id}/results`);
-    }, 1500);
+    }
   };
 
   return (
@@ -83,17 +106,17 @@ export default function FaceScanner() {
           </div>
         ) : (
           <>
-            <video 
+            <video
               ref={videoRef}
-              autoPlay 
-              playsInline 
-              muted 
+              autoPlay
+              playsInline
+              muted
               className="absolute inset-0 w-full h-full object-cover scale-x-[-1]"
             />
-            
+
             {/* Overlay grid / frame */}
             <div className="absolute inset-0 border-4 border-primary/30 m-8 rounded-full border-dashed animate-pulse opacity-50 pointer-events-none" />
-            
+
             {/* Scanning Overlay Effect */}
             {scanning && (
               <div className="absolute inset-0 bg-primary/20 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center animate-fade-in">
@@ -109,7 +132,7 @@ export default function FaceScanner() {
       <canvas ref={canvasRef} className="hidden" />
 
       <div className="py-8 flex justify-center mt-auto">
-        <button 
+        <button
           onClick={capturePhoto}
           disabled={!!error || scanning}
           className="w-20 h-20 rounded-full bg-white/10 border-[6px] border-primary flex items-center justify-center hover:bg-white/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"

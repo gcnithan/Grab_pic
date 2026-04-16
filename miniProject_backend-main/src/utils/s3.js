@@ -15,7 +15,7 @@ const {
   function getS3Client() {
     if (!s3) {
       s3 = new S3Client({
-        region: process.env.AWS_REGION || 'us-east-1'
+        region: process.env.AWS_REGION || 'ap-south-1'
       });
     }
     return s3;
@@ -41,7 +41,7 @@ const {
     const command = new PutObjectCommand({
       Bucket: S3_BUCKET,
       Key: key,
-      ContentType: contentType
+      // ContentType: contentType
     });
   
     return getSignedUrl(client, command, {

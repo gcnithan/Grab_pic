@@ -36,12 +36,12 @@ export default function Join() {
       }
 
       // Save token (it will be a new guest token or the same user token)
-      if (data.access_token) {
-        localStorage.setItem('token', data.access_token);
+      if (data.data && data.data.access_token) {
+        localStorage.setItem('token', data.data.access_token);
       }
 
       // We need the event ID to pass things along to the scanner
-      navigate(`/event/${data.event.id}/scanner`);
+      navigate(`/event/${data.data?.event?.id}/scanner`);
       
     } catch (err) {
       console.error(err);

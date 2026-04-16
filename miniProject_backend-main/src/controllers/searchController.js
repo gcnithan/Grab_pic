@@ -1,8 +1,9 @@
 const searchService = require('../services/searchService');
 const { success, error, validationError } = require('../utils/response');
 const { HTTP_STATUS } = require('../config/constants');
+const axios = require('axios');
 
-async function searchFaces({ eventId, userId, imageBuffer, limit = 50 }) {
+async function searchFaces({ eventId, userId, imageBase64, limit = 50 }) {
 
   if (!eventId || !userId) {
     return validationError(
@@ -10,7 +11,7 @@ async function searchFaces({ eventId, userId, imageBuffer, limit = 50 }) {
     );
   }
 
-  if (!imageBuffer || !imageBuffer.length) {
+  if (!imageBase64 || !imageBase64.length) {
     return validationError(
       [{ field: 'selfie', message: 'required' }]
     );
@@ -18,8 +19,7 @@ async function searchFaces({ eventId, userId, imageBuffer, limit = 50 }) {
 
   try {
 
-    const embedding =
-      await searchService.getEmbeddingFromML(imageBuffer);
+    const embedding = await searchService.getEmbeddingFromML(imageBase64);
 
     const result =
       await searchService.searchFaces(

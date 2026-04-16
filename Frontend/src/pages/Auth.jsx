@@ -40,11 +40,12 @@ export default function Auth() {
       const data = await response.json();
 
       if (response.ok) {
-        if (data.access_token) {
-          localStorage.setItem('token', data.access_token);
+        if (data.data && data.data.access_token) {
+          localStorage.setItem('token', data.data.access_token);
         }
         // Redirect to homepage or joining point on success
          navigate('/dashboard');
+         setIsLogin(true);
       } else {
         console.error('Auth failed:', data);
         alert(data.error?.message || data.message || 'Authentication failed');
@@ -76,8 +77,6 @@ export default function Auth() {
         
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
-            
-
             <div className="space-y-1">
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />

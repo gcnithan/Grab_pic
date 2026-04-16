@@ -1,17 +1,12 @@
 const searchController = require('../../controllers/searchController');
 const { requireAttendeeMember } = require('../../middleware/authMiddleware');
 
-function getBodyBuffer(event) {
-
-  if (event.body && event.isBase64Encoded) {
-    return Buffer.from(event.body, 'base64');
+function getBodyJson(event) {
+  try {
+    return JSON.parse(event.body || '{}');
+  } catch (err) {
+    return {};
   }
-
-  if (event.body && typeof event.body === 'string') {
-    return Buffer.from(event.body, 'utf8');
-  }
-
-  return null;
 }
 
 exports.handler = async (event) => {
@@ -23,7 +18,8 @@ exports.handler = async (event) => {
 
   if (auth.error) return auth.error;
 
-  const imageBuffer = getBodyBuffer(event);
+  const body = getBodyJson(event);
+  const imageBase64 = body.image;
 
   const limit =
     event.queryStringParameters?.limit
@@ -33,7 +29,7 @@ exports.handler = async (event) => {
   return searchController.searchFaces({
     eventId,
     userId: auth.user.sub,
-    imageBuffer,
+    imageBase64,
     limit
   });
 };

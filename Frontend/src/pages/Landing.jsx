@@ -3,6 +3,11 @@ import { Button } from '@/components/ui/Button';
 import { Camera, Search, Shield, Zap } from 'lucide-react';
 
 export default function Landing() {
+const token=localStorage.getItem('token');
+  const isLogin=!!token
+
+
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center px-4 animate-fade-in relative">
       
@@ -37,7 +42,7 @@ export default function Landing() {
               Find My Photos
             </Button>
           </Link>
-          <Link to="/register">
+          <Link to={isLogin?"/dashboard":"/login"}>
             <Button variant="outline" size="lg" className="w-full sm:w-auto glass">
               I'm an Organizer
             </Button>
