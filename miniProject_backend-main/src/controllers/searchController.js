@@ -36,17 +36,26 @@ async function searchFaces({ eventId, userId, imageBuffer, limit = 50 }) {
     });
 
   } catch (err) {
-
-    const isMlError =
-      err.message && err.message.includes('ML');
+    const isMlError = Boolean(
+      err?.isMlServiceError ||
+      (err?.message && err.message.includes('ML'))
+    );
+    const statusCode = err?.statusCode || (
+      isMlError
+        ? HTTP_STATUS.SERVICE_UNAVAILABLE
+        : HTTP_STATUS.INTERNAL_SERVER_ERROR
+    );
+    const message = isMlError
+      ? (statusCode === HTTP_STATUS.BAD_REQUEST
+        ? err.message
+        : 'ML service unavailable, please retry')
+      : (statusCode === HTTP_STATUS.BAD_REQUEST
+        ? err.message
+        : 'Search failed');
 
     return error({
-      statusCode: isMlError
-        ? HTTP_STATUS.SERVICE_UNAVAILABLE
-        : HTTP_STATUS.INTERNAL_SERVER_ERROR,
-      message: isMlError
-        ? 'ML service error'
-        : 'Search failed',
+      statusCode,
+      message,
       error: err
     });
 

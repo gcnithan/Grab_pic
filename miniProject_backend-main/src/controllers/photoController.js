@@ -1,7 +1,7 @@
 const photoService = require('../services/photoService');
 const { success, error, validationError } = require('../utils/response');
 const { HTTP_STATUS } = require('../config/constants');
-
+const { enqueueFaceJob } = require('../queue/faceProcessingQueue');
 /* PRESIGN */
 
 async function getPresignUrl({ eventId, filename, content_type }) {
@@ -69,18 +69,30 @@ async function confirmUpload({ eventId, photo_id, storage_key }) {
       );
 
     if (!result) {
-
       return error({
         statusCode: HTTP_STATUS.NOT_FOUND,
         message: 'Photo not found'
       });
-
     }
 
+// ✅ CORRECT - Redis wrapped in try/catch
+let jobId = null;
+try {
+  jobId = await enqueueFaceJob({
+    photoId: photo_id,
+    eventId,
+    storageKey: storage_key
+  });
+} catch (redisErr) {
+  console.warn('Redis unavailable, job not queued:', redisErr.message);
+}
     return success({
       statusCode: HTTP_STATUS.OK,
       message: 'Photo confirmed',
-      data: result
+      data: {
+        ...result,
+        job_id: jobId   // ✅ NOW NOT NULL
+      }
     });
 
   } catch (err) {

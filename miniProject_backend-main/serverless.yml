@@ -6,6 +6,7 @@ service: miniProject-backend-service
 provider:
   name: aws
   runtime: nodejs20.x
+  useDotenv: true
   stage: ${opt:stage, 'dev'}
   region: ${opt:region, 'ap-south-1'}
   iam:
@@ -42,7 +43,7 @@ provider:
     JWT_ACCESS_SECRET: ${env:JWT_ACCESS_SECRET, ''}
     JWT_REFRESH_SECRET: ${env:JWT_REFRESH_SECRET, ''}
     ML_EMBEDDING_URL: ${env:ML_EMBEDDING_URL, ''}
-
+    # AWS_REGION: ap-south-1
 functions:
   # Auth
   authRegister:
@@ -135,6 +136,7 @@ functions:
   # Search (attendee)
   searchFaces:
     handler: src/handlers/search/search.handler
+    timeout: 20
     events:
       - httpApi:
           path: /events/{eventId}/search

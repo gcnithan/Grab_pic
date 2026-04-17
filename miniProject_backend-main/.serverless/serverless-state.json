@@ -7,6 +7,7 @@
     "provider": {
       "name": "aws",
       "runtime": "nodejs20.x",
+      "useDotenv": true,
       "stage": "dev",
       "region": "ap-south-1",
       "iam": {
@@ -49,11 +50,11 @@
       "environment": {
         "NODE_ENV": "dev",
         "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-        "REDIS_URL": "redis://redis:6379",
+        "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
         "S3_BUCKET": "photo-search-event-images",
         "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
         "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-        "ML_EMBEDDING_URL": "http://localhost:8001"
+        "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
       },
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
@@ -230,7 +231,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/register.handler",
               "Runtime": "nodejs20.x",
@@ -241,11 +242,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -264,7 +265,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/login.handler",
               "Runtime": "nodejs20.x",
@@ -275,11 +276,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -298,7 +299,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/refresh.handler",
               "Runtime": "nodejs20.x",
@@ -309,11 +310,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -332,7 +333,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/auth/guest.handler",
               "Runtime": "nodejs20.x",
@@ -343,11 +344,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -366,7 +367,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/create.handler",
               "Runtime": "nodejs20.x",
@@ -377,11 +378,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -400,7 +401,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/list.handler",
               "Runtime": "nodejs20.x",
@@ -411,11 +412,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -434,7 +435,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/get.handler",
               "Runtime": "nodejs20.x",
@@ -445,11 +446,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -468,7 +469,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/update.handler",
               "Runtime": "nodejs20.x",
@@ -479,11 +480,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -502,7 +503,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/events/join.handler",
               "Runtime": "nodejs20.x",
@@ -513,11 +514,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -536,7 +537,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/presign.handler",
               "Runtime": "nodejs20.x",
@@ -547,11 +548,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -570,7 +571,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/confirm.handler",
               "Runtime": "nodejs20.x",
@@ -581,11 +582,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -604,7 +605,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/list.handler",
               "Runtime": "nodejs20.x",
@@ -615,11 +616,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -638,7 +639,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/photos/download.handler",
               "Runtime": "nodejs20.x",
@@ -649,11 +650,11 @@
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -672,22 +673,22 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-ap-south-1-1bcc5276-7774",
-                "S3Key": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z/miniProject-backend-service.zip"
+                "S3Key": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z/miniProject-backend-service.zip"
               },
               "Handler": "src/handlers/search/search.handler",
               "Runtime": "nodejs20.x",
               "FunctionName": "miniProject-backend-service-dev-searchFaces",
               "MemorySize": 1024,
-              "Timeout": 6,
+              "Timeout": 20,
               "Environment": {
                 "Variables": {
                   "NODE_ENV": "dev",
                   "DATABASE_URL": "postgresql://neondb_owner:npg_eP2hGywEqk6K@ep-silent-rain-adil6qw5-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require",
-                  "REDIS_URL": "redis://redis:6379",
+                  "REDIS_URL": "rediss://default:gQAAAAAAAR_BAAIncDE1MjE0NmU3ZDZkMzg0MWQ2YTcyYjJmMjY5Nzk4MzJmZnAxNzM2NjU@lasting-skylark-73665.upstash.io:6379",
                   "S3_BUCKET": "photo-search-event-images",
                   "JWT_ACCESS_SECRET": "nlj69JSA4xerOHAhQoyPcWzVJNfeaKfbV5wIGuqdT68=",
                   "JWT_REFRESH_SECRET": "nYGLaoUKgubasBx4GlFFujjK7venplNYPDGBUoFV9lo=",
-                  "ML_EMBEDDING_URL": "http://localhost:8001"
+                  "ML_EMBEDDING_URL": "https://6243-2406-7400-11b-4589-7974-6fde-8dfd-f40f.ngrok-free.app/"
                 }
               },
               "Role": {
@@ -701,144 +702,144 @@
               "SearchFacesLogGroup"
             ]
           },
-          "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U": {
+          "AuthRegisterLambdaVersion9BTIvWELweIWDKH2eLsxDMKhT4FZV3WIIUcxV9Vb4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthRegisterLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo": {
+          "AuthLoginLambdaVersionqY3GmTqwF2eyj3f832JMWOB4m8L80v8mGgiSfrv9c": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLoginLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE": {
+          "AuthRefreshLambdaVersion6TYeyGmeViKBupGXwUmnvh2f5okXPZb5kf9zNOlU": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthRefreshLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA": {
+          "AuthGuestLambdaVersioneFAxJBd864t5tdWK3SPdzswlEEVY5r8anePWX3jIk4": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthGuestLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w": {
+          "EventsCreateLambdaVersionVVfW85zCv8YbxhBbc6rpRSqcieEUppx37fyWLy94Q": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsCreateLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI": {
+          "EventsListLambdaVersionjxPWfjyK0IEvlvO3UKE7QQlLuhcoV0IlATKwtEbYC0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsListLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE": {
+          "EventsGetLambdaVersionixuqVE8QqP5uoYlsHayZeZbvLYJzxglEm3JRl9fPd0o": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsGetLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984": {
+          "EventsUpdateLambdaVersionPgFmMxMFIWaRVUTOM6xtUK2SrYp1R61Dvjz9ZMpBQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsUpdateLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8": {
+          "EventsJoinLambdaVersionh1ZwNvWYZTnBOOS2xbdX7pt2EiGtjuj6Rz2GTu7b28": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "EventsJoinLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI": {
+          "PhotosPresignLambdaVersionwAWFjT9eswRpXQ8Li5JYfihJ4YAtZKIEFDWUWMltKE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosPresignLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM": {
+          "PhotosConfirmLambdaVersioniwkGiLCLYC7Aedak4ze5q60p8NZgS6aj7zUqgJcxA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosConfirmLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs": {
+          "PhotosListLambdaVersionIac8ekWHmn29B7kxD90pbECnF1HvS1XqnnDGDvUS9I": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosListLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM": {
+          "PhotosDownloadLambdaVersionHe0q7Aa3Sc07iDKrCkFuBmSse8MJtfylO8rpqXDvRM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "PhotosDownloadLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
-          "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw": {
+          "SearchFacesLambdaVersionxKhg5sfQMomIcUvKtEw4sBmHzRLXybXIJzhArIWPk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "SearchFacesLambdaFunction"
               },
-              "CodeSha256": "dJAx8yecdLYodI5hQJk+/AY0qEcvH0DJ8R1U+Y9DoHk="
+              "CodeSha256": "txdb6RWzxWFmGU9eUouyRaTjmy88SHPzYNZxiBuqSWw="
             }
           },
           "HttpApi": {
@@ -1899,7 +1900,7 @@
           "AuthRegisterLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
+              "Ref": "AuthRegisterLambdaVersion9BTIvWELweIWDKH2eLsxDMKhT4FZV3WIIUcxV9Vb4"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthRegisterLambdaFunctionQualifiedArn"
@@ -1908,7 +1909,7 @@
           "AuthLoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
+              "Ref": "AuthLoginLambdaVersionqY3GmTqwF2eyj3f832JMWOB4m8L80v8mGgiSfrv9c"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -1917,7 +1918,7 @@
           "AuthRefreshLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
+              "Ref": "AuthRefreshLambdaVersion6TYeyGmeViKBupGXwUmnvh2f5okXPZb5kf9zNOlU"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthRefreshLambdaFunctionQualifiedArn"
@@ -1926,7 +1927,7 @@
           "AuthGuestLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
+              "Ref": "AuthGuestLambdaVersioneFAxJBd864t5tdWK3SPdzswlEEVY5r8anePWX3jIk4"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-AuthGuestLambdaFunctionQualifiedArn"
@@ -1935,7 +1936,7 @@
           "EventsCreateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
+              "Ref": "EventsCreateLambdaVersionVVfW85zCv8YbxhBbc6rpRSqcieEUppx37fyWLy94Q"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsCreateLambdaFunctionQualifiedArn"
@@ -1944,7 +1945,7 @@
           "EventsListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
+              "Ref": "EventsListLambdaVersionjxPWfjyK0IEvlvO3UKE7QQlLuhcoV0IlATKwtEbYC0"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsListLambdaFunctionQualifiedArn"
@@ -1953,7 +1954,7 @@
           "EventsGetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
+              "Ref": "EventsGetLambdaVersionixuqVE8QqP5uoYlsHayZeZbvLYJzxglEm3JRl9fPd0o"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsGetLambdaFunctionQualifiedArn"
@@ -1962,7 +1963,7 @@
           "EventsUpdateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
+              "Ref": "EventsUpdateLambdaVersionPgFmMxMFIWaRVUTOM6xtUK2SrYp1R61Dvjz9ZMpBQ"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsUpdateLambdaFunctionQualifiedArn"
@@ -1971,7 +1972,7 @@
           "EventsJoinLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
+              "Ref": "EventsJoinLambdaVersionh1ZwNvWYZTnBOOS2xbdX7pt2EiGtjuj6Rz2GTu7b28"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-EventsJoinLambdaFunctionQualifiedArn"
@@ -1980,7 +1981,7 @@
           "PhotosPresignLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
+              "Ref": "PhotosPresignLambdaVersionwAWFjT9eswRpXQ8Li5JYfihJ4YAtZKIEFDWUWMltKE"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosPresignLambdaFunctionQualifiedArn"
@@ -1989,7 +1990,7 @@
           "PhotosConfirmLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
+              "Ref": "PhotosConfirmLambdaVersioniwkGiLCLYC7Aedak4ze5q60p8NZgS6aj7zUqgJcxA"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosConfirmLambdaFunctionQualifiedArn"
@@ -1998,7 +1999,7 @@
           "PhotosListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
+              "Ref": "PhotosListLambdaVersionIac8ekWHmn29B7kxD90pbECnF1HvS1XqnnDGDvUS9I"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosListLambdaFunctionQualifiedArn"
@@ -2007,7 +2008,7 @@
           "PhotosDownloadLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
+              "Ref": "PhotosDownloadLambdaVersionHe0q7Aa3Sc07iDKrCkFuBmSse8MJtfylO8rpqXDvRM"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-PhotosDownloadLambdaFunctionQualifiedArn"
@@ -2016,7 +2017,7 @@
           "SearchFacesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
+              "Ref": "SearchFacesLambdaVersionxKhg5sfQMomIcUvKtEw4sBmHzRLXybXIJzhArIWPk"
             },
             "Export": {
               "Name": "sls-miniProject-backend-service-dev-SearchFacesLambdaFunctionQualifiedArn"
@@ -2089,7 +2090,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthRegisterLambdaVersioncObmcou11PyR4fxLX6uCcaJhTlfnb8o8PsLmm6kCW2U"
+        "versionLogicalId": "AuthRegisterLambdaVersion9BTIvWELweIWDKH2eLsxDMKhT4FZV3WIIUcxV9Vb4"
       },
       "authLogin": {
         "handler": "src/handlers/auth/login.handler",
@@ -2109,7 +2110,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthLoginLambdaVersionOkbfrekqOMadzGppNKHO57U06uXH5FBlZv8dJjWMo"
+        "versionLogicalId": "AuthLoginLambdaVersionqY3GmTqwF2eyj3f832JMWOB4m8L80v8mGgiSfrv9c"
       },
       "authRefresh": {
         "handler": "src/handlers/auth/refresh.handler",
@@ -2129,7 +2130,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthRefreshLambdaVersion2dQbbJib2psbDOf2LsLzc3UFBHjSij9XPuYkCrfgSCE"
+        "versionLogicalId": "AuthRefreshLambdaVersion6TYeyGmeViKBupGXwUmnvh2f5okXPZb5kf9zNOlU"
       },
       "authGuest": {
         "handler": "src/handlers/auth/guest.handler",
@@ -2149,7 +2150,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "AuthGuestLambdaVersionISbHY1hIbEB8VqZfgDIQu3Pyqfc6jEHI1urcTmDHA"
+        "versionLogicalId": "AuthGuestLambdaVersioneFAxJBd864t5tdWK3SPdzswlEEVY5r8anePWX3jIk4"
       },
       "eventsCreate": {
         "handler": "src/handlers/events/create.handler",
@@ -2169,7 +2170,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "EventsCreateLambdaVersionrq9JzpbvNcoZ6EkVJ9ld8kWhoJ5B7an27fvWgj3w"
+        "versionLogicalId": "EventsCreateLambdaVersionVVfW85zCv8YbxhBbc6rpRSqcieEUppx37fyWLy94Q"
       },
       "eventsList": {
         "handler": "src/handlers/events/list.handler",
@@ -2189,7 +2190,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "EventsListLambdaVersionPzG4rRna6MIrOpE5SDDGJtXH5thxN4yCrrge05pJLI"
+        "versionLogicalId": "EventsListLambdaVersionjxPWfjyK0IEvlvO3UKE7QQlLuhcoV0IlATKwtEbYC0"
       },
       "eventsGet": {
         "handler": "src/handlers/events/get.handler",
@@ -2209,7 +2210,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "EventsGetLambdaVersion2KsarXUP1Zt6ONJ9ENol3QyFEQ53YWXIXPDSVLKE"
+        "versionLogicalId": "EventsGetLambdaVersionixuqVE8QqP5uoYlsHayZeZbvLYJzxglEm3JRl9fPd0o"
       },
       "eventsUpdate": {
         "handler": "src/handlers/events/update.handler",
@@ -2229,7 +2230,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "EventsUpdateLambdaVersion0oJUrEcS2lN0gwOQUSAXovrfiY56Q6iEsmufVt9984"
+        "versionLogicalId": "EventsUpdateLambdaVersionPgFmMxMFIWaRVUTOM6xtUK2SrYp1R61Dvjz9ZMpBQ"
       },
       "eventsJoin": {
         "handler": "src/handlers/events/join.handler",
@@ -2249,7 +2250,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "EventsJoinLambdaVersionAJvVW2jTVIk0U2uI6ISRCQPpSSWqk1m8ArfV9xeMb8"
+        "versionLogicalId": "EventsJoinLambdaVersionh1ZwNvWYZTnBOOS2xbdX7pt2EiGtjuj6Rz2GTu7b28"
       },
       "photosPresign": {
         "handler": "src/handlers/photos/presign.handler",
@@ -2269,7 +2270,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "PhotosPresignLambdaVersionxo0oA7o3iv3aRlLrnQUwe6AdpLgLhU73uBTfL3yaLVI"
+        "versionLogicalId": "PhotosPresignLambdaVersionwAWFjT9eswRpXQ8Li5JYfihJ4YAtZKIEFDWUWMltKE"
       },
       "photosConfirm": {
         "handler": "src/handlers/photos/confirm.handler",
@@ -2289,7 +2290,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "PhotosConfirmLambdaVersionVVl254pgjryFRenHbqfJYo6ZTkiXiAUHPdu8ikPWM"
+        "versionLogicalId": "PhotosConfirmLambdaVersioniwkGiLCLYC7Aedak4ze5q60p8NZgS6aj7zUqgJcxA"
       },
       "photosList": {
         "handler": "src/handlers/photos/list.handler",
@@ -2309,7 +2310,7 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "PhotosListLambdaVersion8TP8LFOJAABwxsYTnh5F9swD8bXYVnrG7tNAvHAfUs"
+        "versionLogicalId": "PhotosListLambdaVersionIac8ekWHmn29B7kxD90pbECnF1HvS1XqnnDGDvUS9I"
       },
       "photosDownload": {
         "handler": "src/handlers/photos/download.handler",
@@ -2329,10 +2330,11 @@
         "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "PhotosDownloadLambdaVersionqrgT35Hd8d09NsIEVidEGOyFTDR0jlwUSrrRSwtnWM"
+        "versionLogicalId": "PhotosDownloadLambdaVersionHe0q7Aa3Sc07iDKrCkFuBmSse8MJtfylO8rpqXDvRM"
       },
       "searchFaces": {
         "handler": "src/handlers/search/search.handler",
+        "timeout": 20,
         "events": [
           {
             "httpApi": {
@@ -2346,10 +2348,9 @@
         "name": "miniProject-backend-service-dev-searchFaces",
         "package": {},
         "memory": 1024,
-        "timeout": 6,
         "runtime": "nodejs20.x",
         "vpc": {},
-        "versionLogicalId": "SearchFacesLambdaVersionOAXnA7lHQjbyvtA9RHzOjgoimSD5a0jPC8CIRBmAIdw"
+        "versionLogicalId": "SearchFacesLambdaVersionxKhg5sfQMomIcUvKtEw4sBmHzRLXybXIJzhArIWPk"
       }
     },
     "configValidationMode": "warn",
@@ -2379,7 +2380,7 @@
     "artifact": "/Users/nithangc/Desktop/mini-project/miniProject_backend-main/.serverless/miniProject-backend-service.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/miniProject-backend-service/dev/1776348532077-2026-04-16T14:08:52.077Z",
+    "artifactDirectoryName": "serverless/miniProject-backend-service/dev/1776428388230-2026-04-17T12:19:48.230Z",
     "artifact": "miniProject-backend-service.zip"
   }
 }
