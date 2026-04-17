@@ -1,7 +1,7 @@
 const photoService = require('../services/photoService');
 const { success, error, validationError } = require('../utils/response');
 const { HTTP_STATUS } = require('../config/constants');
-const { enqueueFaceJob } = require('../queues/faceQueue');
+const { enqueueFaceJob } = require('../queue/faceProcessingQueue');
 
 /* PRESIGN */
 

@@ -13,7 +13,7 @@ export default function EventDetails() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  
+
   // Edit State
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -32,11 +32,11 @@ export default function EventDetails() {
     setLoading(true);
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
-      
+
       // Fetch Event Details
       const eventRes = await fetch(`${baseUrl}/events/${id}`, { headers });
       const eventData = await eventRes.json();
-      
+
       if (eventRes.ok && eventData.data?.event) {
         setEvent(eventData.data.event);
         setName(eventData.data.event.name);
@@ -46,9 +46,9 @@ export default function EventDetails() {
       // Fetch Event Photos
       const photosRes = await fetch(`${baseUrl}/events/${id}/photos`, { headers });
       const photosData = await photosRes.json();
-      
+
       if (photosRes.ok && photosData.data?.photos) {
-          setPhotos(photosData.data.photos);
+        setPhotos(photosData.data.photos);
       }
     } catch (err) {
       console.error(err);
@@ -70,10 +70,10 @@ export default function EventDetails() {
       });
       const data = await res.json();
       if (res.ok) {
-         alert("Event updated successfully!");
-         setEvent(data.data?.event || event);
+        alert("Event updated successfully!");
+        setEvent(data.data?.event || event);
       } else {
-         alert(data.message || 'Failed to update event');
+        alert(data.message || 'Failed to update event');
       }
     } catch (err) {
       console.error(err);
@@ -85,7 +85,7 @@ export default function EventDetails() {
 
   const handleFileChange = async (e) => {
     if (!e.target.files || e.target.files.length === 0) return;
-    
+
     const files = Array.from(e.target.files);
     setUploading(true);
     setUploadProgress({ current: 0, total: files.length });
@@ -94,6 +94,8 @@ export default function EventDetails() {
       const file = files[i];
       try {
         // 1. Get Presigned URL
+        const contentType = "image/jpeg";
+
         const presignRes = await fetch(`${baseUrl}/events/${id}/photos/presign`, {
           method: 'POST',
           headers: {
@@ -102,27 +104,33 @@ export default function EventDetails() {
           },
           body: JSON.stringify({
             filename: file.name,
-            content_type: file.type
+            content_type: contentType
           })
         });
-        
         const presignData = await presignRes.json();
         if (!presignRes.ok) throw new Error(presignData.message);
 
-        const { upload_url, photo_id, storage_key } = presignData.data;
+        console.log("PRESIGN:", presignData);
 
-        // 2. Upload directly to S3
+
+        const { upload_url, photo_id, storage_key } = presignData.data;
+        console.log("UPLOAD URL:", upload_url);
+        // upload
         const uploadRes = await fetch(upload_url, {
           method: 'PUT',
           headers: {
-            'Content-Type': file.type
+            'Content-Type': contentType   // MUST MATCH backend
           },
           body: file
         });
 
-        if (!uploadRes.ok) throw new Error('Upload to S3 failed');
+        console.log("UPLOAD STATUS:", uploadRes.status);
 
-        // 3. Confirm target processing
+        if (!uploadRes.ok) {
+          throw new Error('Upload to S3 failed');
+        }
+
+        // confirm
         const confirmRes = await fetch(`${baseUrl}/events/${id}/photos/confirm`, {
           method: 'POST',
           headers: {
@@ -130,12 +138,17 @@ export default function EventDetails() {
             'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
-            photo_id: photo_id,
-            storage_key: storage_key
+            photo_id,
+            storage_key
           })
         });
 
-        if (!confirmRes.ok) throw new Error('Confirmation failed');
+        const confirmData = await confirmRes.json();
+        console.log("CONFIRM:", confirmData);
+
+        if (!confirmRes.ok) {
+          throw new Error(confirmData.message || "Confirmation failed");
+        }
 
       } catch (err) {
         console.error(`Failed to upload ${file.name}:`, err);
@@ -144,7 +157,7 @@ export default function EventDetails() {
     }
 
     setUploading(false);
-    if(fileInputRef.current) fileInputRef.current.value = '';
+    if (fileInputRef.current) fileInputRef.current.value = '';
     // Refresh photos
     fetchEventData();
   };
@@ -155,7 +168,7 @@ export default function EventDetails() {
 
   return (
     <div className="container mx-auto px-4 py-8 animate-fade-in relative min-h-[calc(100vh-4rem)]">
-      
+
       {/* Header */}
       <div className="flex items-center space-x-4 mb-8">
         <Link to={`/dashboard`}>
@@ -170,7 +183,7 @@ export default function EventDetails() {
       </div>
 
       <div className="grid md:grid-cols-3 gap-8">
-        
+
         {/* Left Column: Details & Upload */}
         <div className="md:col-span-1 space-y-6">
           <Card glass>
@@ -180,7 +193,7 @@ export default function EventDetails() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <label className="text-sm font-medium">Event Name</label>
-                <Input 
+                <Input
                   value={name}
                   onChange={e => setName(e.target.value)}
                   placeholder="Event Name"
@@ -188,7 +201,7 @@ export default function EventDetails() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">Description</label>
-                <textarea 
+                <textarea
                   className="flex min-h-[80px] w-full rounded-md border border-input bg-background/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                   value={description}
                   onChange={e => setDescription(e.target.value)}
@@ -210,30 +223,30 @@ export default function EventDetails() {
                 <h3 className="font-semibold text-lg">Upload Photos</h3>
                 <p className="text-sm text-muted-foreground mt-1">Upload images to process faces.</p>
               </div>
-              
-              <input 
-                type="file" 
-                multiple 
+
+              <input
+                type="file"
+                multiple
                 accept="image/*"
                 ref={fileInputRef}
-                className="hidden" 
-                onChange={handleFileChange} 
+                className="hidden"
+                onChange={handleFileChange}
                 disabled={uploading}
               />
-              
+
               {uploading ? (
-                 <div className="w-full space-y-2">
-                     <div className="flex justify-between text-sm">
-                         <span>Uploading...</span>
-                         <span>{uploadProgress.current} / {uploadProgress.total}</span>
-                     </div>
-                     <div className="w-full bg-muted rounded-full h-2">
-                         <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${(uploadProgress.current / uploadProgress.total) * 100}%`}}></div>
-                     </div>
-                 </div>
+                <div className="w-full space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Uploading...</span>
+                    <span>{uploadProgress.current} / {uploadProgress.total}</span>
+                  </div>
+                  <div className="w-full bg-muted rounded-full h-2">
+                    <div className="bg-primary h-2 rounded-full transition-all duration-300" style={{ width: `${(uploadProgress.current / uploadProgress.total) * 100}%` }}></div>
+                  </div>
+                </div>
               ) : (
                 <Button className="w-full" onClick={() => fileInputRef.current?.click()}>
-                   Select Files
+                  Select Files
                 </Button>
               )}
             </CardContent>
@@ -244,7 +257,7 @@ export default function EventDetails() {
         <div className="md:col-span-2">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-semibold flex items-center">
-              <ImageIcon className="w-5 h-5 mr-2 text-muted-foreground" /> 
+              <ImageIcon className="w-5 h-5 mr-2 text-muted-foreground" />
               Uploaded Photos ({photos.length})
             </h2>
             <Button variant="ghost" size="sm" onClick={fetchEventData}>
@@ -253,24 +266,25 @@ export default function EventDetails() {
           </div>
 
           {photos.length === 0 ? (
-             <div className="flex flex-col items-center justify-center py-20 px-4 text-center border-2 border-dashed rounded-2xl border-muted-foreground/20">
-                 <ImageIcon className="w-12 h-12 text-muted-foreground/30 mb-4" />
-                 <p className="text-lg font-medium text-muted-foreground">No photos uploaded yet</p>
-                 <p className="text-sm text-muted-foreground mt-1">Upload some photos to start face processing.</p>
-             </div>
+            <div className="flex flex-col items-center justify-center py-20 px-4 text-center border-2 border-dashed rounded-2xl border-muted-foreground/20">
+              <ImageIcon className="w-12 h-12 text-muted-foreground/30 mb-4" />
+              <p className="text-lg font-medium text-muted-foreground">No photos uploaded yet</p>
+              <p className="text-sm text-muted-foreground mt-1">Upload some photos to start face processing.</p>
+            </div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {photos.map(photo => (
-                 <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden bg-muted group border border-border">
-                    <div className="absolute inset-0 flex items-center justify-center p-2 text-center text-xs text-muted-foreground">
-                        {/* We don't have download URLs natively in the list response to save requests. Wait! We could potentially generate thumbnails... */}
-                        <span>{photo.storage_key.split('/').pop()}</span>
-                    </div>
-                    {/* Status Badge */}
-                    <div className="absolute top-2 right-2 bg-background/80 backdrop-blur text-xs px-2 py-0.5 rounded-full font-medium z-10 border border-border">
-                        {photo.processing_status}
-                    </div>
-                 </div>
+                <div key={photo.id} className="relative aspect-square rounded-xl overflow-hidden bg-muted group border border-border">
+                  <img
+                    src={`${baseUrl}/events/${id}/photos/${photo.id}/download`}
+                    alt={photo.storage_key.split('/').pop()}
+                    className="w-full h-full object-cover"
+                    onError={(e) => e.target.style.display = 'none'}
+                  />
+                  <div className="absolute top-2 right-2 bg-background/80 backdrop-blur text-xs px-2 py-0.5 rounded-full font-medium z-10 border border-border">
+                    {photo.processing_status}
+                  </div>
+                </div>
               ))}
             </div>
           )}

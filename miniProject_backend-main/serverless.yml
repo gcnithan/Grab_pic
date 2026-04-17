@@ -1,6 +1,6 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: mouryamp
-app: miniProject-backend
+app: miniproject-backend
 service: miniProject-backend-service
 
 provider:
@@ -14,6 +14,26 @@ provider:
         - http://localhost:5173
       allowedHeaders:
         - Content-Type
+        - Authorization
+        - X-Requested-With
+      allowedMethods:
+        - GET
+        - POST
+        - PATCH
+        - PUT
+        - DELETE
+        - OPTIONS
+      allowCredentials: false
+      maxAge: 600
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Action:
+            - 's3:PutObject'
+            - 's3:GetObject'
+            - 's3:DeleteObject'
+          Resource: 'arn:aws:s3:::${env:S3_BUCKET}/*'
         - Authorization
         - X-Requested-With
       allowedMethods:
@@ -126,6 +146,7 @@ functions:
   # Search (attendee)
   searchFaces:
     handler: src/handlers/search/search.handler
+    timeout: 29
     events:
       - httpApi:
           path: /events/{eventId}/search

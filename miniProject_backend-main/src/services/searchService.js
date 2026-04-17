@@ -18,7 +18,8 @@ async function getEmbeddingFromML(imageBase64) {
   const res = await fetch(`${ML_EMBEDDING_URL}/process`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Bypass-Tunnel-Reminder': 'true'
     },
     body: JSON.stringify({
       imageBase64: imageBase64
@@ -26,7 +27,12 @@ async function getEmbeddingFromML(imageBase64) {
   });
 
   if (!res.ok) {
-    throw new Error('ML service error');
+    let errorDetail = res.statusText;
+    try {
+      const errData = await res.json();
+      errorDetail = errData.detail || res.statusText;
+    } catch(e) {}
+    throw new Error(`ML service error: ${errorDetail}`);
   }
 
   const data = await res.json();
@@ -52,6 +58,7 @@ async function searchFaces(eventId, userId, embedding, limit = 50) {
      FROM faces
      WHERE event_id=$2
      GROUP BY photo_id
+     HAVING MAX(1 - (embedding <=> $1::vector)) > 0.40
      ORDER BY score DESC
      LIMIT $3`,
     [vectorStr, eventId, limit]

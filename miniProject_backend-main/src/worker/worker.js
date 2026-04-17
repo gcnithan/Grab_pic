@@ -42,13 +42,15 @@ const worker = new Worker(
 
       // 3️⃣ Store embeddings
       await Promise.all(
-        faces.map(face =>
-          pool.query(
+        faces.map(face => {
+          const vectorStr = `[${face.embedding.map(Number).join(',')}]`;
+
+          return pool.query(
             `INSERT INTO faces (photo_id, event_id, embedding)
-            VALUES ($1, $2, $3)`,
-            [photoId, eventId, face.embedding]
-          )
-        )
+       VALUES ($1, $2, $3::vector)`,
+            [photoId, eventId, vectorStr]
+          );
+        })
       );
 
       // 4️⃣ Update photo status
